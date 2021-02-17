@@ -16,15 +16,21 @@ services:
     restart: always
     depends_on:
       - "mongo"
+    links:
+      - "mongo:database"
     ports:
       - 7070:7070
     environment:
-      PORT_SERVICE_CONN_STR_DB: "mongodb://root:pwd123@127.0.0.1:27017/?authSource=admin&readPreference=primary&appname=airportgrpc&ssl=false&retryWrites=true"
+      PORT_SERVICE_CONN_STR_DB: "mongodb://root:pwd123@database:27017/?authSource=admin&readPreference=primary&appname=airportgrpc&ssl=false&retryWrites=true"
 
   clientapi:
     image: fafg/clientapi:latest
     restart: always
     depends_on:
       - "portservice"
+    links:
+      - "portservice:portservice"
     ports:
       - 8080:8080
+    environment:
+      PORT_SERVICE_ENDPOINT: "portservice:7070"
