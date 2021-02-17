@@ -22,19 +22,19 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
 
-    - name: [Port Service] Build
+    - name: Port Service - Build
       shell: bash
       working-directory: ./portservice
       run: |
         make build-debug
 
-    - name: [Port Service] Test
+    - name: Port Service - Test
       shell: bash
       working-directory: ./portservice
       run: |
         make test
 
-    - name: [Port Service] Docker Build & Push
+    - name: Port Service - Docker Build & Push
       uses: opspresso/action-docker@master
       with:
         args: --docker
