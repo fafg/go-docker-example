@@ -1,0 +1,22 @@
+syntax = "proto3";
+package domain;
+
+option go_package = "portservice/internal/grpc/domain";
+
+message Airport {
+    string name = 1;
+    string city = 2;
+    string country = 3;
+    repeated string alias = 4;
+    repeated string regions = 5;
+    repeated double coordinates = 6;
+    string province = 7;
+    string timezone = 8;
+    repeated string unlocs = 9;
+    string code = 10;
+    string codename = 11;
+}
+
+message Airports {
+    map<string, Airport> AirportsMap = 1;
+}

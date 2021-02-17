@@ -1,0 +1,27 @@
+syntax = "proto3";
+package service;
+
+option go_package = "portservice/internal/grpc/service";
+import "portservice/internal/proto-files/domain/port.proto";
+
+
+service PortDomainService {
+    rpc Insert(domain.Airport) returns (InsertAirportResponse);
+    rpc BulkInsert(domain.Airports) returns (BulkInsertAirportResponse);
+    rpc SearchByAirportName(domain.Airport) returns (domain.Airports);
+}
+
+message InsertAirportResponse {
+    domain.Airport addedAirport = 1;
+    Error error = 2;
+}
+
+message BulkInsertAirportResponse {
+    int32 addedAmount = 1;
+    Error error = 2;
+}
+
+message Error {
+    string code = 1;
+    string message = 2;
+}
