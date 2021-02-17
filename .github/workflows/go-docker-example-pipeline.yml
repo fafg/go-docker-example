@@ -41,7 +41,7 @@ jobs:
       env:
         USERNAME: ${{ secrets.DOCKER_USERNAME }}
         PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        DOCKERFILE: "Dockerfile"
+        DOCKERFILE: "./portservice/Dockerfile"
         BUILD_PATH: "./portservice"
         IMAGE_NAME: "fafg/portservice"
         TAG_NAME: "v0.0.1"
