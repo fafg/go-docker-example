@@ -40,7 +40,7 @@ COPY --from=builder /etc/passwd /etc/passwd
 COPY --from=builder /etc/group /etc/group
 
 # Copy our static executable
-COPY --from=builder /go/src/coba/portservice/bin/release/portservice-grpc-server /go/bin/portservice-grpc-server
+COPY --from=builder /go/src/portservice/bin/release/portservice-grpc-server /go/bin/portservice-grpc-server
 
 # Use an unprivileged user.
 USER portservice:portservice
