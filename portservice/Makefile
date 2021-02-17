@@ -27,7 +27,7 @@ build-debug: build-common ## - build a debug binary to the current platform (win
 
 .PHONY: test
 test: build-common ## - execute go test command
-	@go test -v -cover
+	@go test -v -cover ./...
 
 .PHONY: ci-lint
 ci-lint: ## - runs golangci-lint
@@ -37,7 +37,7 @@ docker-build: ## - build docker image
 	@ docker build -f Dockerfile -t portservice:latest .
 
 .PHONY: docker-scan
-docker-scan: ## - Scan for known vulnerabilities the smallest and secured golang docker image based on scratch
+docker-scan: ## - Scan for known vulnerabilities
 	@printf "\033[32m\xE2\x9c\x93 Scan for known vulnerabilities the smallest and secured golang docker image based on scratch\n\033[0m"
 	@docker scan -f Dockerfile portservice
 
