@@ -38,7 +38,7 @@ func (db *MongoDb) Init(connStr string) {
 func (db *MongoDb) OpenConnection() {
     client, err := mongo.NewClient(options.Client().ApplyURI(db.ConnString))
     if err != nil {
-        log.Errorf("error on trying to create a new mongodb client: %v\n", err)
+        log.Errorf("error on trying to create a new mongodb application: %v\n", err)
         return
     }
 
@@ -106,11 +106,7 @@ func (db *MongoDb) InsertAirport(airport *domain.Airport) error {
 func (db *MongoDb) SearchAirportByName(name string) (*[]*domain.Airport, error) {
     var results []*domain.Airport
 
-    filter := bson.D{primitive.E{Key: "name", Value: name}}
-    collection := db.client.Database(DbName).Collection(CollectionName)
-
-    //err := collection.FindOne(_ctx, filter).Decode(&result)
-    cursor, err := collection.Find(_ctx, filter)
+    cursor, err := _collection.Find(_ctx, bson.M{ "$text": bson.M{ "$search": name }})
     if err != nil {
         return nil, err
     }
