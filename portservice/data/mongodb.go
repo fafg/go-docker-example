@@ -2,13 +2,13 @@ package data
 
 import (
     "context"
-    log "github.com/sirupsen/logrus"
+    "go.mongodb.org/mongo-driver/x/bsonx"
+    "time"
 
+    log "github.com/sirupsen/logrus"
     "go.mongodb.org/mongo-driver/bson"
-    "go.mongodb.org/mongo-driver/bson/primitive"
     "go.mongodb.org/mongo-driver/mongo"
     "go.mongodb.org/mongo-driver/mongo/options"
-
     "portservice/data/models"
     "portservice/internal/grpc/domain"
 )
@@ -17,7 +17,8 @@ const CollectionName string = "Airports"
 const DbName string = "AirportService"
 
 var (
-    _ctx context.Context
+    _ctx        context.Context
+    _collection *mongo.Collection
 )
 
 type MongoDb struct {
@@ -51,6 +52,19 @@ func (db *MongoDb) OpenConnection() {
     if err != nil {
         log.Errorf("connection couldn't be established: %v\n", err)
     }
+
+    initializeCollection(db)
+}
+
+func initializeCollection(db *MongoDb) {
+    _collection = db.client.Database(DbName).Collection(CollectionName)
+    _, _ = _collection.Indexes().CreateOne(
+        context.Background(),
+        mongo.IndexModel{
+            Keys:    bsonx.Doc{{Key: "name", Value: bsonx.String("text")}},
+            Options: options.Index().SetUnique(false),
+        },
+    )
 }
 
 func (db *MongoDb) CloseConnection() {
@@ -117,24 +131,6 @@ func (db *MongoDb) SearchAirportByName(name string) (*[]*domain.Airport, error) 
     }
 
     return &results, nil
-}
-
-func mapDomainAirportToAirportDB(airport *domain.Airport) *models.AirportDB {
-    airportDb := models.AirportDB{
-        Name:        airport.Name,
-        City:        airport.City,
-        Country:     airport.Country,
-        Alias:       airport.Alias,
-        Regions:     airport.Regions,
-        Coordinates: airport.Coordinates,
-        Province:    airport.Province,
-        Timezone:    airport.Timezone,
-        Unlocs:      airport.Unlocs,
-        Code:        airport.Code,
-        Codename:    airport.Codename,
-    }
-
-    return &airportDb
 }
 
 func mapAirportDBToDomainAirport(airportdb *models.AirportDB) *domain.Airport {
