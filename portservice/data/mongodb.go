@@ -60,11 +60,28 @@ func (db *MongoDb) CloseConnection() {
     }
 }
 
+//InsertAirport insert if new, update if is already present
 func (db *MongoDb) InsertAirport(airport *domain.Airport) error {
-    airportdb := mapDomainAirportToAirportDB(airport)
+    opts := options.Update().SetUpsert(true)
+    filter := bson.M{"codename": bson.M{ "$eq":  airport.Codename}}
+    update := bson.M{
+     "$setOnInsert": bson.M{
+         "name":         airport.Name,
+         "city":         airport.City,
+         "country":      airport.Country,
+         "alias":        airport.Alias,
+         "regions":      airport.Regions,
+         "coordinates":  airport.Coordinates,
+         "province":     airport.Province,
+         "timezone":     airport.Timezone,
+         "unlocs":       airport.Unlocs,
+         "code":         airport.Code,
+         "codename":     airport.Codename,
+         "update_at":    time.Now(),
+    }}
 
-    collection := db.client.Database(DbName).Collection(CollectionName)
-    _, err := collection.InsertOne(context.Background(), airportdb)
+    _, err := _collection.UpdateOne(context.Background(), filter, update, opts)
+
     if err != nil {
         return err
     }
