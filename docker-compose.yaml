@@ -31,6 +31,10 @@ services:
     links:
       - "portservice:portservice"
     ports:
-      - 8080:8080
+      - 8080:8000
+    volumes:
+      #do not add the file name here, only the path
+      - /path/to/your/json/file/:/go/file/
     environment:
+      FILE_FOLDER_PATH: "/go/file/"
       PORT_SERVICE_ENDPOINT: "portservice:7070"
