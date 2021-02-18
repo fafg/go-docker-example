@@ -46,3 +46,28 @@ jobs:
         IMAGE_NAME: "fafg/portservice"
         TAG_NAME: "v0.0.1"
         LATEST: "true"
+
+    - name: Client Api - Build
+      shell: bash
+      working-directory: ./clientapi
+      run: |
+        make build-debug
+
+    - name: Client Api - Test
+      shell: bash
+      working-directory: ./clientapi
+      run: |
+        make test
+
+    - name: Client Api - Docker Build & Push
+      uses: opspresso/action-docker@master
+      with:
+        args: --docker
+      env:
+        USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        DOCKERFILE: "./clientapi/Dockerfile"
+        BUILD_PATH: "./clientapi"
+        IMAGE_NAME: "fafg/clientapi"
+        TAG_NAME: "v0.0.1"
+        LATEST: "true"
