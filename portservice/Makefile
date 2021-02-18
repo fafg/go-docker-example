@@ -34,7 +34,7 @@ ci-lint: ## - runs golangci-lint
 	@ golangci-lint run --enable-all -D forbidigo -D gochecknoglobals -D gofumpt -D gofmt -D nlreturn
 
 docker-build: ## - build docker image
-	@ docker build -f Dockerfile -t portservice:latest .
+	@ docker build -f Dockerfile -t fafg/portservice:latest .
 
 .PHONY: docker-scan
 docker-scan: ## - Scan for known vulnerabilities
