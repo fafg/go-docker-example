@@ -30,5 +30,28 @@ Check the logs
 docker logs <clientapi-container-name> -f
 docker logs <portservice-container-name> -f
 ```
+
+over each project folder you can execute the command to see what is available, like this:
+```shell
+make
+✓ usage: make [target]
+
+build-common                   - execute build common tasks clean and mod tidy
+build-debug                    - build a debug binary to the current platform (windows, linux or darwin(mac))
+build-release                  - build a release linux elf(binary)
+build-static-release           - build a static release linux elf(binary)
+ci-lint                        - runs golangci-lint
+docker-build                   - build docker image
+docker-scan                    - Scan for known vulnerabilities
+generate-go-proto              - generate golang proto files
+help                           - Show this help message
+sonar-scan                     - runs build and then sonar scanner (make sure you have installed sonar-scanner and you have it in your path)
+sonar-start                    - start sonar qube locally with docker (you will need docker installed in your machine)
+sonar-stop                     - stop sonar qube docker container
+test                           - execute go test command
+
+```
+
+
 # What can be improved
 > configuration, failure recovery, unit test, add more features, usage of k3d for kubernetes local deployment.
