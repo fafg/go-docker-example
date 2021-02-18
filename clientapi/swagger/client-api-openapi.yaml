@@ -1,0 +1,123 @@
+openapi: 3.0.1
+info:
+  title: Client Api
+  description: this is the application api swagger representation.
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: fabiano@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://localhost:8080/v1
+tags:
+  - name: clientapi
+    description: start file load against grpc server
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /startload:
+    post:
+      tags:
+        - clientapi
+      summary: start transfer the file content to grpc server
+      operationId: startload
+      requestBody:
+        description: json file which will be load against grpc server
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/File'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/File'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/File'
+        required: true
+      responses:
+        "405":
+          description: Invalid input
+          content: {}
+      x-codegen-request-body-name: filename
+  /search/{name}:
+    get:
+      tags:
+        - clientapi
+      summary: Search airport by name
+      description: search airport by name.
+      operationId: searchAirportByName
+      parameters:
+        - name: name
+          in: path
+          description: 'airport name. Ex: Abu Dhabi'
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Airport'
+        "400":
+          description: Invalid name value
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+components:
+  schemas:
+    Airport:
+      type: object
+      properties:
+        Name:
+          type: string
+        City:
+          type: string
+        Country:
+          type: string
+        Alias:
+          type: array
+          items:
+            type: string
+        Regions:
+          type: array
+          items:
+            type: string
+        Coordinates:
+          type: array
+          items:
+            type: number
+        Province:
+          type: string
+        Timezone:
+          type: string
+        Unlocs:
+          type: array
+          items:
+            type: string
+        Code:
+          type: string
+        Codename:
+          type: string
+      xml:
+        name: Airport
+    File:
+      required:
+        - filename
+      type: object
+      properties:
+        filename:
+          type: string
+          example: load-json-file.json
+      xml:
+        name: File
