@@ -40,7 +40,7 @@ COPY --from=builder /etc/passwd /etc/passwd
 COPY --from=builder /etc/group /etc/group
 
 # Copy our static executable
-COPY --from=builder /go/src/portservice/bin/release/clientapi-restapi-server /go/bin/clientapi-restapi-server
+COPY --from=builder /go/src/clientapi/bin/release/clientapi-restapi-server /go/bin/clientapi-restapi-server
 
 # Use an unprivileged user.
 USER clientapi:clientapi

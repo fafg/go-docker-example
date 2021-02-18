@@ -34,12 +34,12 @@ ci-lint: ## - runs golangci-lint
 	@ golangci-lint run --enable-all -D forbidigo -D gochecknoglobals -D gofumpt -D gofmt -D nlreturn
 
 docker-build: ## - build docker image
-	@ docker build -f Dockerfile -t portservice:latest .
+	@ docker build -f Dockerfile -t fafg/clientapi:latest .
 
 .PHONY: docker-scan
 docker-scan: ## - Scan for known vulnerabilities
 	@printf "\033[32m\xE2\x9c\x93 Scan for known vulnerabilities the smallest and secured golang docker image based on scratch\n\033[0m"
-	@docker scan -f Dockerfile portservice
+	@docker scan -f Dockerfile clientapi
 
 .PHONY: sonar-start
 sonar-start: ## - start sonar qube locally with docker (you will need docker installed in your machine)
@@ -53,8 +53,8 @@ sonar-stop: ## - stop sonar qube docker container
 
 .PHONY: sonar-scan
 sonar-scan: build-debug ## - runs build and then sonar scanner (make sure you have installed sonar-scanner and you have it in your path)
-	sonar-scanner -Dsonar.projectKey="portservice" \
-				  -Dsonar.projectName="portservice" \
+	sonar-scanner -Dsonar.projectKey="clientapi" \
+				  -Dsonar.projectName="clientapi" \
 				  -Dsonar.sources=. \
 				  -Dsonar.exclusions=internal/** \
 				  -Dsonar.host.url="http://localhost:9000" \
