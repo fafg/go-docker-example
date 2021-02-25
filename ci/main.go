@@ -23,7 +23,7 @@ func DockerBuildAndPublish(ctx *pulumi.Context) error {
 	// Build and publish the container image.
 	image, err := docker.NewImage(ctx, "clientapi", &docker.ImageArgs{
 		Build:     &docker.DockerBuildArgs{Context: pulumi.String("../clientapi")}, //path to the dockerfile
-		ImageName: pulumi.String("fafg/clientapi"),
+		ImageName: pulumi.String("fafg/clientapi:" + os.Getenv("DOCKER_IMAGE_TAG")),
 		Registry:  registryInfo,
 	})
 
