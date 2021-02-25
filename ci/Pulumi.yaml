@@ -1,0 +1,6 @@
+name: go-docker
+runtime:
+  name: go
+  options:
+    binary: pulumi-task
+description: a go dockrized with pulumi as iac
