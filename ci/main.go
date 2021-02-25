@@ -4,13 +4,11 @@ import (
 	"github.com/pulumi/pulumi-docker/sdk/v2/go/docker"
 	"github.com/pulumi/pulumi/sdk/v2/go/pulumi"
 	"os"
-	"time"
-
 	//"github.com/pulumi/pulumi/sdk/v2/go/pulumi/config"
 )
 
 func main() {
-	time.Sleep(30 * time.Second) // in case of debugging uncomment this line.
+	//time.Sleep(30 * time.Second) // in case of debugging uncomment this line.
 	pulumi.Run(DockerBuildAndPublish)
 }
 
